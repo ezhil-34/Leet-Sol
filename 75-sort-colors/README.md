@@ -30,3 +30,19 @@
 
 <p>&nbsp;</p>
 <p><strong>Follow up:</strong>&nbsp;Could you come up with a one-pass algorithm using only&nbsp;constant extra space?</p>
+
+<p> Here we use Dutch national flag Algorithm 
+
+🟠 How the Algorithm Works
+We use three pointers:
+
+low (starting index of 1s) → Separates 0s and 1s.
+mid (current element being processed) → Iterates through the array.
+high (starting index of 2s) → Separates 1s and 2s.
+Steps:
+If nums[mid] == 0 → Swap nums[mid] with nums[low], move both low and mid forward.
+If nums[mid] == 1 → Just move mid forward.
+If nums[mid] == 2 → Swap nums[mid] with nums[high], move high backward.
+The process continues until mid crosses high.
+
+</p>
