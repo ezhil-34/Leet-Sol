@@ -1,23 +1,15 @@
 class Solution {
     public String reverseWords(String s) {
-        int end = s.length()-1;
-        StringBuilder sb= new StringBuilder();
-        while(end>=0){
-             while(end>=0 && s.charAt(end) ==' '){
-            end--;
+         String[] words = s.trim().split("\\s+");
 
-          }
-          if(end<0) break;
-         int  start = end;
-          while(start>=0&& s.charAt(start) != ' '){
-            start--;
-
-          }
-          sb.append(s.substring(start+1 ,end+1));
-          sb.append(" ");
-          end = start-1;
+        // Step 2: Use StringBuilder to reverse the words
+        StringBuilder sb = new StringBuilder();
+        for(int i = words.length - 1; i >= 0; i--) {
+            sb.append(words[i]);
+            if(i != 0) sb.append(" "); // Add space between words
         }
-        return sb.toString().trim();
+
+        return sb.toString();
 
         
     }
