@@ -1,13 +1,22 @@
 class Solution {
+    Map<String, Integer> memo = new HashMap<>();
+
     public int findTargetSumWays(int[] nums, int target) {
-        return back(nums,0,0,target);
+        return dp(nums, 0, 0, target);
     }
-    public int back(int[] nums,int id,int sum,int target){
-        if(nums.length==id){
-            return target == sum?1:0;
+
+    private int dp(int[] nums, int i, int sum, int target) {
+        String key = i + "," + sum;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        if (i == nums.length) {
+            return sum == target ? 1 : 0;
         }
-        int add = back(nums,id+1,nums[id]+sum,target);
-        int sub = back(nums,id+1,sum-nums[id],target);
-        return add+sub;
+
+        int add = dp(nums, i + 1, sum + nums[i], target);
+        int subtract = dp(nums, i + 1, sum - nums[i], target);
+        memo.put(key, add + subtract);
+
+        return memo.get(key);
     }
 }
