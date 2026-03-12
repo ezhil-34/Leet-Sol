@@ -1,13 +1,23 @@
 class Solution {
     public int maxRepeating(String sequence, String word) {
         
-        StringBuilder sb = new StringBuilder(word);
-        int cnt = 0;
-        while(sequence.contains(sb.toString())){
-            cnt++;
-            sb.append(word);
-        }
+       int n = sequence.length();
+       int m = word.length();
 
-        return cnt;
+       int[] dp = new int[n];
+       int ans = 0;
+       for(int i = m-1;i<n;i++){
+
+            if(sequence.substring(i-m+1,i+1).equals(word)){
+                dp[i] = 1;
+
+                if(i-m>=0){
+                    dp[i]+=dp[i-m];
+                }
+                ans = Math.max(ans,dp[i]);
+            }
+       }
+       return ans;
     }
+
 }
