@@ -1,36 +1,30 @@
 class Solution {
     public String longestPalindrome(String s) {
-        int n = s.length();
-        if (n == 0) return "";
+       if(s.length() < 1 && s == null) return "";
+       int n = s.length();
+        int st = 0, ed = 0;
 
-        boolean[][] dp = new boolean[n][n];
+        for(int i =0;i<n;i++){
+            int len1 = extractfromcenter(s,i,i);
+            int len2 = extractfromcenter(s,i,i+1);
+            int len = Math.max(len1,len2);
 
-        int start = 0;
-        int maxLen = 1;
-
-        // length = 1 (single characters)
-        for (int i = 0; i < n; i++) {
-            dp[i][i] = true;
-        }
-
-        // length >= 2
-        for (int len = 2; len <= n; len++) {
-            for (int i = 0; i + len - 1 < n; i++) {
-                int j = i + len - 1;
-
-                if (s.charAt(i) == s.charAt(j)) {
-                    if (len <= 2 || dp[i + 1][j - 1]) {
-                        dp[i][j] = true;
-
-                        if (len > maxLen) {
-                            maxLen = len;
-                            start = i;
-                        }
-                    }
-                }
+            if(len > ed-st){
+                st = i - (len-1)/2;
+                ed = i + len/2;
             }
-        }
 
-        return s.substring(start, start + maxLen);
+            
+
+        }
+        return s.substring(st,ed+1);
+    }
+
+    public int extractfromcenter(String s , int left,int right){
+        while(left>=0 && right<s.length() && s.charAt(left) == s.charAt(right)){
+            left--;
+            right++;
+        }
+        return right - left - 1;
     }
 }
