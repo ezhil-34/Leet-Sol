@@ -4,6 +4,8 @@ class Solution {
     int m = obstacleGrid.length;
     int[] dp = new int[n];
 
+    if(obstacleGrid[0][0] == 1) return 0;
+
     dp[0] = obstacleGrid[0][0] == 1?0:1;
 
     for(int i = 0;i<m;i++){
