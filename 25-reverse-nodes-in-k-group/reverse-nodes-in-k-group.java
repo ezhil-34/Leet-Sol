@@ -11,55 +11,43 @@
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
         
-        ListNode temp = head;
-        ListNode prevL = null;
-        while(temp!=null){
-            ListNode kth = kthn(temp,k);
-            if(kth == null){
-                if(prevL!=null){
-                    prevL.next = temp;
-                    break;
-                }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode grpprev = dummy;
+        while(true){
+            ListNode kth = kth(grpprev,k);
+
+            if(kth == null) break;
+
+            ListNode grpnext = kth.next;
+            ListNode prev = grpnext;
+            ListNode curr = grpprev.next;
+
+            while(curr!=grpnext){
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
             }
-            ListNode next = kth.next;
-            kth.next = null;
 
-            rev(temp);
+            ListNode temp = grpprev.next;
 
-            if(temp == head){
-                head = kth;
-            }
-            else{
-                prevL.next = kth;
-            }
-            prevL = temp;
-            temp = next;
-
-
+            grpprev.next =  kth;
+            grpprev = temp;
         }
-        return head;
+
+        return dummy.next;
+
+        
 
     }
-    public static ListNode kthn(ListNode temp,int k){
-        k-=1;
-        while(temp!=null&&k>0){
-            temp = temp.next;
+
+    public ListNode kth(ListNode curr,int k){
+        while(curr!=null && k>0){
+            curr = curr.next;
             k--;
         }
-        return temp;
-    }
-    public static ListNode rev(ListNode head){
 
-        ListNode temp = head;
-
-        ListNode prev = null;
-        while(temp!=null){
-            ListNode front = temp.next;
-            temp.next = prev;
-            prev= temp;
-            temp = front;
-        }
-        return temp;
-
+        return curr;
     }
 }
