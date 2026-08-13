@@ -15,35 +15,34 @@
  */
 class Solution {
     public TreeNode deleteNode(TreeNode root, int key) {
-        TreeNode curr = root;
-        TreeNode parent = null;
-        while(curr!=null && curr.val!=key){
-            parent =  curr;
-            if(key<curr.val) curr = curr.left;
-            else curr = curr.right;
+            if(root == null) return null;
+
+            if(key<root.val){
+                root.left = deleteNode(root.left,key);
+            }
+            else if(key>root.val){
+                root.right = deleteNode(root.right,key);
+            }
+
+            else{
+                if(root.left == null) return root.right;
+
+                if(root.right == null) return root.left;
+
+                TreeNode succ = find(root.right);
+
+                root.val = succ.val;
+
+                root.right = deleteNode( root.right, root.val);
+
+            }
+            return root;
+    }
+
+    public TreeNode find(TreeNode root){
+        while(root.left!=null){
+            root = root.left;
         }
-        if(curr == null) return root;
-
-        if(curr.left!=null && curr.right!=null){
-             TreeNode succ = curr.right;
-             TreeNode succp = curr;
-
-             while(succ.left!=null){
-                succp = succ;
-                succ = succ.left;
-             }
-
-             curr.val = succ.val;
-             curr = succ;
-             parent = succp;
-        }
-        TreeNode child = (curr.left!=null)?curr.left:curr.right;
-        if(parent == null) return child;
-
-        if(parent.left == curr) {
-            parent.left = child;
-        }
-        else parent.right = child;
 
         return root;
     }
