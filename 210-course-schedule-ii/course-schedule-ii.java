@@ -1,41 +1,42 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        int[] indeg = new int[numCourses];
-        List<List<Integer>> adj = new ArrayList<>();
-        for(int i = 0;i<numCourses;i++){
-            adj.add(new ArrayList<>());
-        }
+       List<List<Integer>> res = new ArrayList<>();
 
-        for(int[] pair: prerequisites ){
-            int c = pair[0];
-            int pre = pair[1];
-            adj.get(pre).add(c);
-            indeg[c]++;
-        }
+       int[] indeg = new int[numCourses];
+
+       for(int i = 0;i<numCourses;i++){
+            res.add(new ArrayList<>());
+       }
+
+       for(int[] pre : prerequisites){
+            int course = pre[0];
+            int p = pre[1];
+
+            res.get(p).add(course);
+            indeg[course]++;
+       }
         Queue<Integer> q = new LinkedList<>();
-        for(int i =0;i<numCourses;i++){
-            if(indeg[i]==0){
+       for(int i = 0;i<numCourses;i++){
+            if(indeg[i] == 0){
                 q.add(i);
             }
-        }
-        int[] ans = new int[numCourses];
-        int i =0;
-        int count =0;
-        while(!q.isEmpty()){
-            int node = q.poll();
-            count++;
-            ans[i] = node;
-            i++;
-            for(int neigh: adj.get(node)){
-                indeg[neigh]--;
-                if(indeg[neigh]==0){
-                    q.add(neigh);
+       }
 
-            
+       int[] result = new int[numCourses];
+       int index = 0;
+
+       while(!q.isEmpty()){
+            int curr = q.poll();
+            result[index++] = curr;
+
+            for(int i : res.get(curr)){
+                indeg[i]--;
+                if(indeg[i] == 0){
+                    q.add(i);
                 }
             }
-        }
-        if(count==numCourses) return ans;
-        else return new int[0];
+       }
+
+       return index == numCourses ? result : new int[0];
     }
 }
