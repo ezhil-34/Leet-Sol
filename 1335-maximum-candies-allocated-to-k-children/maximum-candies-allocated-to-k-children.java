@@ -7,7 +7,7 @@ class Solution {
             max = Math.max(c,max);
             total+=max;
         }
-
+        if(total<k) return 0;
         int low = 1;
         int high = max;
 
